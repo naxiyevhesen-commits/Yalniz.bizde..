@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Location Sender</title>
+</head>
+<body style="font-family:Arial;text-align:center;margin-top:50px;">
+<h3>Location Sender</h3>
+<button id="sendBtn">Send Location via WhatsApp</button>
+<script>
+document.getElementById('sendBtn').onclick = function() {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const locationLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
+    // WhatsApp link hazırla
+    const whatsappNumber = '994774409790'; // 077 440 97 90 AZ formatında
+    const message = encodeURIComponent(`Mənim location: ${locationLink}`);
+    const waLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+    // Yeni tab-da aç
+    window.open(waLink, '_blank');
+  }, function(err) {
+    alert('Location alınmadı: ' + err.message);
+  });
+};
+</script>
+</body>
+</html>
